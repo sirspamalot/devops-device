@@ -1,0 +1,10 @@
+.devops.ko.cmd
+.devops.mod.o.cmd
+.devops.o.cmd
+.tmp_versions/devops.mod
+Module.symvers
+devops.ko
+devops.mod.c
+devops.mod.o
+devops.o
+modules.order
