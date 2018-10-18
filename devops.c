@@ -15,16 +15,34 @@
 #include <linux/module.h>
 #include <linux/uaccess.h>
 
-const char devops_data[] = "Told you so!\n";
 
 ssize_t devops_read(struct file *filep, char *buff,
 			size_t count, loff_t *offp)
 {
-	ssize_t res = copy_to_user(buff, devops_data, strlen(devops_data));
+	static int finished;
+	static int run;
+	ssize_t res;
+	const char *devops_data[] = {
+		"Told you so!\n",
+		"Fucking Told you so!\n",
+		"Are you kidding me!\n",
+		"Management bears the risk\n",
+	};
 
-	if (unlikely(res))
+	if (finished > 10) {
+		finished = 0;
+		run = (run + 1) % ARRAY_SIZE(devops_data);
+		return 0;
+	}
+
+	res = copy_to_user(buff, devops_data[run], strlen(devops_data[run]));
+	if (unlikely(res)) {
 		pr_err("Kernel -> userspace copy failed!\n");
-	return res ?: strlen(devops_data);
+		return -EFAULT;
+	}
+
+	finished++;
+	return strlen(devops_data[run]);
 }
 
 static const struct file_operations devops_fops = {
