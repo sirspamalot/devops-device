@@ -57,6 +57,6 @@ static void __exit devops_exit(void)
 module_init(devops_init)
 module_exit(devops_exit)
 
-MODULE_AUTHOR("Oliver Schneidewind");
-MODULE_DESCRIPTION("A simple example for FWerner");
+MODULE_AUTHOR("Oliver Schneidewind, Florian Werner");
+MODULE_DESCRIPTION("A simple reminder for the management");
 MODULE_LICENSE("GPL v2");
